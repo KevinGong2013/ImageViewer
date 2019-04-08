@@ -161,7 +161,7 @@ open class ItemBaseController<T: UIView>: UIViewController, ItemController, UIGe
 
           let longPressRecognizer = UILongPressGestureRecognizer()
 
-          longPressRecognizer.addTarget(self, action: #selector(scrollViewDidLongPress))
+          longPressRecognizer.addTarget(self, action: #selector(scrollViewDidLongPress(sender:)))
           scrollView.addGestureRecognizer(longPressRecognizer)
 
           self.longPressRecognizer = longPressRecognizer
@@ -269,9 +269,10 @@ open class ItemBaseController<T: UIView>: UIViewController, ItemController, UIGe
         self.delegate?.itemControllerDidSingleTap(self)
     }
 
-    @objc func scrollViewDidLongPress() {
-
-        self.delegate?.itemControllerDidLongPress(self, in: itemView)
+    @objc func scrollViewDidLongPress(sender: UILongPressGestureRecognizer) {
+        if sender.state == .ended {
+            self.delegate?.itemControllerDidLongPress(self, in: itemView)
+        }
     }
 
     @objc func scrollViewDidDoubleTap(_ recognizer: UITapGestureRecognizer) {
